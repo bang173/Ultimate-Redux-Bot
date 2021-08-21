@@ -1,0 +1,10 @@
+git+https://github.com/Rapptz/discord.py
+requests_html
+aiohttp
+websockets==9.0
+websocket
+websocket-client
+chardet
+psutil
+discord_components
+pillow

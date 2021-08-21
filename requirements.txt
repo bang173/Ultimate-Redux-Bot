@@ -6,5 +6,4 @@ websocket
 websocket-client
 chardet
 psutil
-discord_components
 pillow

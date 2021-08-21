@@ -11,11 +11,10 @@ import datetime
 
 client = commands.Bot(command_prefix = commands.when_mentioned_or('r!'), intents=discord.Intents.all())
 
-# g_ids = [797282201824788502]
 
 
 def isitme(ctx):
-    return ctx.author.id == 616691484057534465 or ctx.author.id == 647735617496547330
+    return ctx.author.id == 0 or ctx.author.id == 1
 
 def is_guild_owner(ctx):
     return ctx.author.id == ctx.guild.owner_id

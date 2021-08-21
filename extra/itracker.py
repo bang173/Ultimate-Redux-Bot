@@ -14,8 +14,8 @@ class InviteTrackingSystem(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.channels = {
-            'log': 877302216304783380,
-            'welcome': 798512561543970866
+            'log': 0,
+            'welcome': 0
         }
         self.invites = {}
         client.loop.create_task(self.cache())
@@ -117,36 +117,6 @@ class InviteTrackingSystem(commands.Cog):
         except:
             pass
 
-
-    @commands.command()
-    @commands.is_owner()
-    async def i(self, ctx, member: discord.Member = None):
-        member = ctx.author if not member else member
-
-        image = Image.open("assets/bg.jpg")
-        img = image.resize((400, 200))
-        idraw = ImageDraw.Draw(img)
-        f_name = ImageFont.truetype('assets/open-sans.ttf', size = 20)
-        f_plain = ImageFont.truetype('assets/pt-sans-bold-italic.ttf', size = 20)
-        f_welcome = ImageFont.truetype('assets/micra.ttf', size=19)
-
-        idraw.text((30, 8), 'Добро пожаловать!', font=f_welcome, fill=0x56b5ff)
-        idraw.text((90, 50), str(member) if len(str(member)) < 27 else f'{member.name[0:24]+"...#"+member.discriminator}', font=f_name, fill=0x919cff)
-        idraw.text((90, 75), f'Ты {member.guild.member_count}-й участник', font=f_name, fill=0x919cff)
-
-        idraw.text((10, 120), 'Желаем приятно провести время!', font=f_plain, fill=0xbf91ff)
-        idraw.text((10, 150), f'Аккаунт создан: {member.created_at.strftime("%d/%m/%Y, %H:%M")}', font=f_plain, fill=0xbf91ff)
-        
-        avatar = member.avatar.replace(size=128)
-        avt = BytesIO(await avatar.read())
-        imga = Image.open(avt)
-        imguser = imga.resize((75, 75))
-
-        img.paste(imguser, (10, 35))
-        img.save("u.jpg")
-        await ctx.send(file = discord.File("u.jpg"))
-        if os.path.exists('u.jpg'):
-            os.remove('u.jpg')
 
 
 

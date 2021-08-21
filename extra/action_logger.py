@@ -35,14 +35,14 @@ class ActionLogger(commands.Cog):
             'm_upd_nick': True,
             'm_upd_profile': True
         }
-        self.ignored_channels = [856558217822994492, 841771697845567488, 812720409082331166, 841771615419105290, 871883550566268958]
+        self.ignored_channels = [0]
 
     async def log(self, smth):
-        channel = await self.client.fetch_channel(864956281991594004)
+        channel = await self.client.fetch_channel(0)
         await channel.send(embed=smth) if type(smth) != str else await channel.send(smth)
 
     async def mlog(self, smth):
-        channel = await self.client.fetch_channel(841771697845567488)
+        channel = await self.client.fetch_channel(0)
         await channel.send(embed=smth) if type(smth) != str else await channel.send(smth)
 
     # @commands.command()

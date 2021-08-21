@@ -33,67 +33,6 @@ class NicknamePrefixChanger(commands.Cog):
 
         self.prefixes = ['🍍 | ', '🍉 | ', '🍊 | ', '✨ | ', '🍡 | ', '🍓 | ', '⌛ | ']
 
-    @commands.command()
-    @commands.is_owner()
-    async def fix(self, ctx, members: commands.Greedy[discord.Member] = None):
-        members = ctx.guild.members if not members else members
-        updated_members = []
-        failed_members = []
-
-        for member in members:
-            if member.top_role.id in self.roles:
-                try:
-                    await member.edit(nick=f'{member.nick[4:]}')
-                    updated_members.append(member)
-                except:
-                    failed_members.append(member)
-
-        um_viewable = ', '.join([m.mention for m in updated_members])
-        fm_viewable = ', '.join([m.mention for m in failed_members])
-        
-        embed = discord.Embed(
-            title = 'Фикс завершен',
-            description = f'Успешные операции: {um_viewable}\n\nПровалившиеся операции: {fm_viewable}',
-            color = 0xffffaa
-        )
-        await ctx.send(embed=embed)
-
-
-    # @commands.command()
-    # async def update(self, ctx: commands.Context):
-    #     updated_members = []
-    #     failed_members = []
-
-    #     for member in ctx.guild.members:
-    #         if member.top_role.id in self.roles:
-    #             if member.nick == None:
-    #                 new_n = self.roles[member.top_role.id]+member.name
-    #             else:
-    #                 if f'{member.nick}'[:4] in self.prefixes:
-    #                     n = f'{member.nick}'[4:]
-    #                     new_n = self.roles[member.top_role.id]+n
-    #                 else:
-    #                     new_n = self.roles[member.top_role.id]+f'{member.nick}'
-    #             try:
-    #                 await member.edit(nick=new_n)
-    #                 updated_members.append(member)
-    #             except:
-    #                 failed_members.append(member)
-
-    #     um_viewable = ', '.join([m.mention for m in updated_members])
-    #     fm_viewable = ', '.join([m.mention for m in failed_members])
-        
-    #     embed = discord.Embed(
-    #         titile = 'Обработка завершена',
-    #         description = f'Успешные замены: {um_viewable}\n\nНе получилось заменить: {fm_viewable}',
-    #         color = 0xffaaff
-    #     )
-    #     await ctx.send(embed=embed)
-
-            
-        
-    
-        
 
 
     @commands.Cog.listener()

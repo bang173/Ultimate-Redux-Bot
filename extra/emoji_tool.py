@@ -2,8 +2,7 @@ import asyncio
 import discord
 from discord.ext import commands
 from discord.ext.commands import command
-from datetime import datetime, timedelta
-
+from concurrent.futures import ThreadPoolExecutor
 
 
 class EmojiTool(commands.Cog):
@@ -71,6 +70,53 @@ class EmojiTool(commands.Cog):
         except Exception as e:
             print(e)
             
+
+    @command()
+    @commands.has_permissions(manage_emojis=True, manage_guild=True)
+    async def steal(self, ctx: commands.Context, emojis: commands.Greedy[discord.PartialEmoji], *names):
+        start = await ctx.send('Выполняется...')
+        messages = [start]
+        strings = '_qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890'
+        ignore = '*'
+        if len(emojis) > 0:
+            for i, e in enumerate(emojis):
+                if len(names) > 0 and names[i] != ignore:
+                    e_name = names[i]
+                    async def check():
+                        for char in names[i]:
+                            if char not in strings:
+                                await ctx.send(f':x: Недопустимый символ в имени для эмодзи: **{char}**')
+                                return True
+                        return False
+                    loop = asyncio.get_event_loop()
+                    with ThreadPoolExecutor() as p:
+                        invalid_char_in_name = loop.run_in_executor(p, check)
+                    if invalid_char_in_name:
+                        e_name = e.name
+                else:
+                    e_name = e.name
+
+                asset = await e.read()
+                try:
+                    em = await ctx.guild.create_custom_emoji(name=e_name, image=asset, reason='normal steal')
+                    if e_name != e.name:
+                        msg = await ctx.send(f':white_check_mark: Добавлен эмодзи {em} под именем "{e_name}"')
+                    else:
+                        msg = await ctx.send(f':white_check_mark: Добавлен эмодзи {em}')
+                    messages.append(msg)
+                except Exception as exc:
+                    await ctx.send(f'Ошибка добавления:\n{exc}')
+            await asyncio.sleep(3)
+            for m in messages:
+                try:
+                    await m.delete(delay=1.0)
+                except:
+                    pass
+
+        else:
+            await ctx.send('Выберите эмодзи')
+
+
 
 
 
